@@ -19,8 +19,7 @@ export class CompletionProvider implements vscode.CompletionItemProvider {
 function extractAbbreviation(document: vscode.TextDocument, position: vscode.Position): [vscode.Range, string] {
     let lineText = document.lineAt(position.line).text;
     let lineSplit = lineText.split(/\s+/);
-    let matched = lineSplit[lineSplit.length - 1].match(/(([A-Za-z,>[\]])+)/) || [];
-    let abbreviation = matched.length > 0 ? matched[0] : '';
+    let abbreviation = lineSplit[lineSplit.length - 1].replace(/[^A-Za-z>[\]]*$/, '');
 
     let start = new vscode.Position(position.line, lineText.indexOf(abbreviation));
     let end = new vscode.Position(position.line, lineText.indexOf(abbreviation) + abbreviation.length);
