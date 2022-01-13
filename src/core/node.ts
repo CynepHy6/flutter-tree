@@ -11,5 +11,4 @@ export class Node {
   isUnique() {
     return (this.children instanceof Node) ? true : false;
   }
-
 }

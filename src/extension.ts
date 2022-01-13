@@ -6,7 +6,7 @@ import { triggers } from './core/constants';
 const language = 'dart';
 
 function widgetsFromAbbr() {
-	let editor = vscode.window.activeTextEditor;
+	const editor = vscode.window.activeTextEditor;
 
 	if (!editor) {
 		vscode.window.showInformationMessage('No editor');
@@ -17,7 +17,7 @@ function widgetsFromAbbr() {
 		prompt: 'Enter Abbreviation', placeHolder: 'Container>Center'
 	}).then(abbr => {
 		if (editor) {
-			let expandText = abbr || '';
+			const expandText = abbr || '';
 			if (validate(expandText)) {
 				editor.insertSnippet(new vscode.SnippetString(expand(expandText)));
 			} else {
@@ -28,7 +28,7 @@ function widgetsFromAbbr() {
 }
 
 function widgetsFromSelection() {
-	vscode.window.showInformationMessage('This feature is not available now');	
+	vscode.window.showInformationMessage('This feature is not available now');
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -46,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function registerCompletionProviders(context: vscode.ExtensionContext) {
-	let completionProvider = new CompletionProvider();
+	const completionProvider = new CompletionProvider();
 
 	const provider = vscode.languages.registerCompletionItemProvider(
 		[{ language, scheme: 'file' }, { language, scheme: 'untitled' }],

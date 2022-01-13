@@ -1,8 +1,8 @@
 {
 	"name": "hy6-flutter-tree",
 	"displayName": "Flutter Tree Fork",
-	"description": "Extension for Flutter to build basic widget tree. flutter-tree fork (https://github.com/MarceloVelasquez/flutter-tree.git)",
-	"version": "1.0.0",
+	"description": "Extension for Flutter to build basic widget tree. flutter-tree fork of https://github.com/MarceloVelasquez/flutter-tree.git",
+	"version": "1.0.1",
 	"icon": "assets/icon.png",
 	"publisher": "hy6",
 	"engines": {

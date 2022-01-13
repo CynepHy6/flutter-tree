@@ -10,4 +10,9 @@ export const symbols = {
 
 export const flag = '!';
 
-export const triggers = ['>', ',', '[', ']'];
+export const triggers = [
+    symbols.childBuilder,
+    symbols.childrenSeparator,
+    symbols.childrenBuilder,
+    symbols.childrenEnd,
+];

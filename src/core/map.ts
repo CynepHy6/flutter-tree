@@ -12,7 +12,7 @@ export default function generateSnippet(rootNode: Node) {
             count++;
         }
     }
-    
+
     return snippet.replace(flag, '$1');
 }
 
@@ -51,6 +51,6 @@ function tabs(number: number): string {
 }
 
 function splice(str: string, add: string): string {
-    let index = str.indexOf(flag);
+    const index = str.indexOf(flag);
     return str.slice(0, index) + add + str.slice(index + 1);
 }

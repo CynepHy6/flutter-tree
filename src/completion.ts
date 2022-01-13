@@ -9,40 +9,38 @@ export class CompletionProvider implements vscode.CompletionItemProvider {
         context: vscode.CompletionContext):
         Thenable<vscode.CompletionList> {
 
-        let expandedAbbr = getExpandedAbbreviation(document, position);
-        let completionItems = expandedAbbr ? [expandedAbbr] : [];
+        const expandedAbbr = getExpandedAbbreviation(document, position);
+        const completionItems = expandedAbbr ? [expandedAbbr] : [];
 
         return Promise.resolve(new vscode.CompletionList(completionItems, true));
     }
 }
 
 function extractAbbreviation(document: vscode.TextDocument, position: vscode.Position): [vscode.Range, string] {
-    let lineText = document.lineAt(position.line).text;
-    let lineSplit = lineText.split(/\s+/);
-    let abbreviation = lineSplit[lineSplit.length - 1].replace(/[^A-Za-z>[\]]*$/, '');
+    const lineText = document.lineAt(position.line).text;
+    const lineSplit = lineText.split(/\s+/);
+    const abbreviation = lineSplit[lineSplit.length - 1].replace(/[^a-z>[\]]*$/gi, '');
 
-    let start = new vscode.Position(position.line, lineText.indexOf(abbreviation));
-    let end = new vscode.Position(position.line, lineText.indexOf(abbreviation) + abbreviation.length);
+    const start = new vscode.Position(position.line, lineText.indexOf(abbreviation));
+    const end = new vscode.Position(position.line, lineText.indexOf(abbreviation) + abbreviation.length);
 
     return [new vscode.Range(start, end), abbreviation];
 }
 
-function getExpandedAbbreviation(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem {
-    let [rangeToReplace, wordToExpand] = extractAbbreviation(document, position);
-    let valid = validate(wordToExpand);
+function getExpandedAbbreviation(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem | null {
+    const [rangeToReplace, wordToExpand] = extractAbbreviation(document, position);
+    const valid = validate(wordToExpand);
 
-    let completionItem = new vscode.CompletionItem(wordToExpand);
+    if (!valid) {
+        return null;
+    }
+    const completionItem = new vscode.CompletionItem(wordToExpand);
     completionItem.detail = 'Flutter Tree';
 
-    if (valid) {
-        let expandedWord = expand(wordToExpand);
-        completionItem.insertText = new vscode.SnippetString(expandedWord);
-        completionItem.documentation = removeTabStops(expandedWord);
-        completionItem.range = rangeToReplace;
-    } else {
-        completionItem.documentation = 'Invalid syntax';
-        completionItem.insertText = new vscode.SnippetString();
-    }
+    const expandedWord = expand(wordToExpand);
+    completionItem.insertText = new vscode.SnippetString(expandedWord);
+    completionItem.documentation = removeTabStops(expandedWord);
+    completionItem.range = rangeToReplace;
 
     return completionItem;
 }

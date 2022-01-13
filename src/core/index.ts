@@ -15,7 +15,19 @@ export function validate(text: string): boolean {
     return isAbbr(text) ? validateSingleLine(text) : validateMultiLine(text);
 }
 
+const FALSE_ABBR = '>]'
+    + '|]\\['
+    + '|]\\s>\\s'
+    + '|(>|\\[|,){2}'
+    + '|^[^,>[\\]]+$'
+    ;
+
+const FALSE_ABBR_RE = new RegExp(FALSE_ABBR, 'gi');
+
 function validateSingleLine(abbr: string): boolean {
+    if (abbr === '' || abbr.match(FALSE_ABBR_RE)) {
+        return false;
+    }
 
     let left = 0, right = 0;
     for (let i = 0; i < abbr.length; i++) {
@@ -37,19 +49,10 @@ function validateSingleLine(abbr: string): boolean {
                 if (abbr[i].match(/\W/i)) {
                     return false;
                 }
-                break;
         }
     }
 
-    if (left !== right) {
-        return false;
-    }
-
-    if (abbr === '' || abbr.match(/(>|\[|,){2}|>]|]\[|]>/g)) {
-        return false;
-    }
-
-    return true;
+    return left === right;
 }
 
 function validateMultiLine(abbr: string): boolean {
@@ -74,7 +77,7 @@ function removeEndTriggers(text: string): string {
 
 function limitAbbr(abbr: string): string {
     let text = '', block = 0, flag = false;
-    let index = Array.from(abbr).findIndex((char, pos) => {
+    const index = Array.from(abbr).findIndex((char, pos) => {
         text += char;
         switch (char) {
             case symbols.childrenBuilder:
