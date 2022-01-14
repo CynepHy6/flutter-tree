@@ -10,9 +10,4 @@
 		"rootDir": "src",
 		"strict": true
 	},
-	"exclude": [
-		"node_modules",
-		".vscode-test",
-		"tests"
-	]
 }
