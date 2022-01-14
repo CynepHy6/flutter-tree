@@ -20,6 +20,7 @@ const FALSE_ABBR = '>]'
     + '|]\\s>\\s'
     + '|(>|\\[|,){2}'
     + '|^[^,>[\\]]+$'
+    + '|]>'
     ;
 
 const FALSE_ABBR_RE = new RegExp(FALSE_ABBR, 'gi');
