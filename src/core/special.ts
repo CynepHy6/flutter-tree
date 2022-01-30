@@ -7,7 +7,7 @@ const special: { [key: string]: string } = {
   'constrainedbox\\(': 'ConstrainedBox(\n\t\tconstraints: ,',
   '(?<=scaffold.*?)child': 'body',
 }
-export function expandSpecial(text: string): string {
+export function replaceSpecial(text: string): string {
   const keys = Object.keys(special)
   keys.forEach(tag => (text = text.replace(new RegExp(tag, 'is'), special[tag])))
   return text

@@ -1,7 +1,7 @@
 import map from './map'
 import { mapperSingleLine, mapperMultiLine } from './mapper'
 import { symbols, triggers } from './constants'
-import { expandSpecial } from './expand-special'
+import { replaceSpecial } from './special'
 
 function isSingleAbbr(text: string): boolean {
   return !text.includes(symbols.enter)
@@ -11,7 +11,7 @@ const lastCommaRe = new RegExp(',$')
 export function expand(text: string): string {
   text = filter(text)
   const expanded = map(isSingleAbbr(text) ? mapperSingleLine(text) : mapperMultiLine(text))
-  return expandSpecial(expanded).replace(lastCommaRe, '')
+  return replaceSpecial(expanded).replace(lastCommaRe, '')
 }
 
 export function validate(text: string): boolean {
