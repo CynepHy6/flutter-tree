@@ -1,18 +1,13 @@
 export const symbols = {
-  childBuilder: ">",
-  childrenBuilder: "[",
-  childrenSeparator: ",",
-  childrenEnd: "]",
+  childBuilder: '>',
+  childrenBuilder: '[',
+  childrenSeparator: ',',
+  childrenEnd: ']',
 
-  enter: "\n",
-  tab: "\t",
-};
+  enter: '\n',
+  tab: '\t',
+}
 
-export const flag = "!";
+export const flag = '!'
 
-export const triggers = [
-  symbols.childBuilder,
-  symbols.childrenSeparator,
-  symbols.childrenBuilder,
-  symbols.childrenEnd,
-];
+export const triggers = [symbols.childBuilder, symbols.childrenSeparator, symbols.childrenBuilder, symbols.childrenEnd]
