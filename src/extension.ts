@@ -1,59 +1,67 @@
-import * as vscode from 'vscode';
-import { expand, validate } from './core';
-import { CompletionProvider } from './completion';
-import { triggers } from './core/constants';
+import * as vscode from "vscode";
+import { expand, validate } from "./core";
+import { CompletionProvider } from "./completion";
+import { triggers } from "./core/constants";
 
-const language = 'dart';
+const language = "dart";
 
 function widgetsFromAbbr() {
-	const editor = vscode.window.activeTextEditor;
+  const editor = vscode.window.activeTextEditor;
 
-	if (!editor) {
-		vscode.window.showInformationMessage('No editor');
-		return;
-	}
+  if (!editor) {
+    vscode.window.showInformationMessage("No editor");
+    return;
+  }
 
-	vscode.window.showInputBox({
-		prompt: 'Enter Abbreviation', placeHolder: 'Container>Center'
-	}).then(abbr => {
-		if (editor) {
-			const expandText = abbr || '';
-			if (validate(expandText)) {
-				editor.insertSnippet(new vscode.SnippetString(expand(expandText)));
-			} else {
-				vscode.window.showWarningMessage('Invalid syntax');
-			}
-		}
-	});
+  vscode.window
+    .showInputBox({
+      prompt: "Enter Abbreviation",
+      placeHolder: "Container>Center",
+    })
+    .then((abbr) => {
+      if (editor) {
+        const expandText = abbr || "";
+        if (validate(expandText)) {
+          editor.insertSnippet(new vscode.SnippetString(expand(expandText)));
+        } else {
+          vscode.window.showWarningMessage("Invalid syntax");
+        }
+      }
+    });
 }
 
 function widgetsFromSelection() {
-	vscode.window.showInformationMessage('This feature is not available now');
+  vscode.window.showInformationMessage("This feature is not available now");
 }
 
 export function activate(context: vscode.ExtensionContext) {
+  registerCompletionProviders(context);
 
-	registerCompletionProviders(context);
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.fromAbbr", () => {
+      widgetsFromAbbr();
+    })
+  );
 
-	context.subscriptions.push(vscode.commands.registerCommand('extension.fromAbbr', () => {
-		widgetsFromAbbr();
-	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand('extension.fromSelection', () => {
-		widgetsFromSelection();
-	}));
-
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.fromSelection", () => {
+      widgetsFromSelection();
+    })
+  );
 }
 
 function registerCompletionProviders(context: vscode.ExtensionContext) {
-	const completionProvider = new CompletionProvider();
+  const completionProvider = new CompletionProvider();
 
-	const provider = vscode.languages.registerCompletionItemProvider(
-		[{ language, scheme: 'file' }, { language, scheme: 'untitled' }],
-		completionProvider,
-		...triggers
-	);
-	context.subscriptions.push(provider);
+  const provider = vscode.languages.registerCompletionItemProvider(
+    [
+      { language, scheme: "file" },
+      { language, scheme: "untitled" },
+    ],
+    completionProvider,
+    ...triggers
+  );
+  context.subscriptions.push(provider);
 }
 
-export function deactivate() { }
+export function deactivate() {}

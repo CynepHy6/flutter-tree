@@ -1,5 +1,4 @@
 export class Node {
-
   name: string;
   children: Node | Node[] | undefined;
 
@@ -9,6 +8,6 @@ export class Node {
   }
 
   isUnique() {
-    return (this.children instanceof Node) ? true : false;
+    return this.children instanceof Node ? true : false;
   }
 }
