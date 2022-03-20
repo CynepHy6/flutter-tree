@@ -15,6 +15,6 @@ const special: { [key: string]: string } = {
 }
 export function replaceSpecial(text: string): string {
   const keys = Object.keys(special)
-  keys.forEach(tag => (text = text.replace(new RegExp(tag, 'is'), special[tag])))
+  keys.forEach(tag => (text = text.replace(new RegExp(tag, 'gism'), special[tag])))
   return text
 }

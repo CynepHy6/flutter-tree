@@ -32,4 +32,11 @@ describe('test special replace for buttons', () => {
     const res = index.expand(value)
     expect('CupertinoButton(\n\t\tonPressed: () {},$1)').equal(res)
   })
+  it('string[elevatedbutton,elevatedbutton]', async function () {
+    const value = this.test?.title || ''
+    const res = index.expand(value)
+    expect(
+      'String(\n\tchildren: <Widget>[\n\t\tElevatedButton(\n\t\tonPressed: () {},$1),\n\t\tElevatedButton(\n\t\tonPressed: () {},$2),\n\t],\n)'
+    ).equal(res)
+  })
 })
