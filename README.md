@@ -88,6 +88,10 @@ Supported language:
 
 - Dart
 
-### 1.0.0
+##
 
-Core and use with abbreviation.
+test dev
+
+```
+npm run test-watch
+```
